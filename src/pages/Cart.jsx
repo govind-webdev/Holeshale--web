@@ -74,7 +74,7 @@ function Cart({ cart = [], setCart, setShowCart }) {
     message += `\nDiscount: ₹${discount}`;
     message += `\nTotal: ₹${finalTotal}`;
 
-    const phoneNumber = "919876543210"; // 🔴 apna number dalna
+    const phoneNumber = "919922734633"; // 🔴 apna number dalna
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
     window.open(url, "_blank");
