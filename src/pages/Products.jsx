@@ -2,16 +2,19 @@ import React from "react";
 import products from "../data/products";
 import ProductCard from "../components/ProductCard";
 
-function Products({ cart, setCart }) {
+function Products({ 
+  cart, 
+  setCart, 
+  setSelectedProduct,   // ✅ NEW
+  setActivePage         // ✅ NEW
+}) {
 
   // ✅ Add To Cart Function
   const addToCart = (product) => {
 
-    // check if product already exists
     const existingItem = cart.find(item => item.id === product.id);
 
     if (existingItem) {
-      // increase quantity
       const updatedCart = cart.map(item =>
         item.id === product.id
           ? { ...item, quantity: item.quantity + 1 }
@@ -19,7 +22,6 @@ function Products({ cart, setCart }) {
       );
       setCart(updatedCart);
     } else {
-      // add new product with quantity 1
       setCart([...cart, { ...product, quantity: 1 }]);
     }
   };
@@ -31,7 +33,7 @@ function Products({ cart, setCart }) {
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold">Our Products</h1>
         <p className="text-gray-500 mt-2">
-          Explore our premium quality collection
+          Explore our premium Long Kurti Set Collection
         </p>
       </div>
 
@@ -41,7 +43,9 @@ function Products({ cart, setCart }) {
           <ProductCard 
             key={product.id} 
             product={product}
-            addToCart={addToCart}   // ✅ PASS FUNCTION
+            addToCart={addToCart}
+            setSelectedProduct={setSelectedProduct}   // ✅ PASS
+            setActivePage={setActivePage}             // ✅ PASS
           />
         ))}
       </div>

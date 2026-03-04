@@ -4,11 +4,13 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import About from "./pages/About";
 import Cart from "./pages/Cart";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   const [activePage, setActivePage] = useState("home");
   const [showCart, setShowCart] = useState(false);
-  const [cart, setCart] = useState([]); // ✅ MUST be array
+  const [cart, setCart] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null); // ✅ NEW
 
   return (
     <>
@@ -18,27 +20,40 @@ function App() {
         setActivePage={setActivePage}
       />
 
-      {/* ✅ FIX 1: cart & setCart pass to Home */}
+      {/* HOME */}
       {activePage === "home" && (
-        <Home 
+        <Home
           cart={cart}
           setCart={setCart}
+          setSelectedProduct={setSelectedProduct}   // ✅ NEW
+          setActivePage={setActivePage}             // ✅ NEW
         />
       )}
 
-      {/* ✅ FIX 2: cart & setCart pass to Products */}
+      {/* PRODUCTS */}
       {activePage === "products" && (
-        <Products 
+        <Products
           cart={cart}
+          setCart={setCart}
+          setSelectedProduct={setSelectedProduct}   // ✅ NEW
+          setActivePage={setActivePage}             // ✅ NEW
+        />
+      )}
+
+      {/* PRODUCT DETAILS */}
+      {activePage === "details" && selectedProduct && (
+        <ProductDetails
+          product={selectedProduct}
           setCart={setCart}
         />
       )}
 
+      {/* ABOUT */}
       {activePage === "about" && <About />}
 
-      {/* ✅ FIX 3: setCart also pass to Cart */}
+      {/* CART */}
       {showCart && (
-        <Cart 
+        <Cart
           cart={cart}
           setCart={setCart}
           setShowCart={setShowCart}
