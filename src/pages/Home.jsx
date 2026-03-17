@@ -1,10 +1,11 @@
 import ProductCard from "../components/ProductCard";
 import TrustSection from "../components/TrustSection";
 import products from "../data/products";
+import Slider from "../components/Slider";
 
-function Home({ 
-  cart = [], 
-  setCart, 
+function Home({
+  cart = [],
+  setCart,
   setSelectedProduct,   // ✅ NEW
   setActivePage         // ✅ NEW
 }) {
@@ -26,6 +27,7 @@ function Home({
 
   return (
     <>
+      <Slider  />
       {/* Heading */}
       <div className="text-center mt-8">
         <h1 className="text-3xl font-bold">Our Products</h1>

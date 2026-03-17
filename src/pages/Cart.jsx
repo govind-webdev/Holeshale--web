@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-function Cart({ cart = [], setCart, setShowCart }) {
+function Cart({ cart = [], setCart, setShowCart, setActivePage }) {
+
   const [showCheckout, setShowCheckout] = useState(false);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -9,19 +10,14 @@ function Cart({ cart = [], setCart, setShowCart }) {
   const [coupon, setCoupon] = useState("");
   const [discount, setDiscount] = useState(0);
 
-  // ✅ Subtotal
   const subtotal = cart.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
-  // ✅ Delivery logic
   const deliveryCharge = subtotal >= 999 ? 0 : 50;
-
-  // ✅ Final total
   const finalTotal = subtotal + deliveryCharge - discount;
 
-  // ✅ Increase Quantity
   const increaseQty = (id) => {
     const updatedCart = cart.map((item) =>
       item.id === id
@@ -31,7 +27,6 @@ function Cart({ cart = [], setCart, setShowCart }) {
     setCart(updatedCart);
   };
 
-  // ✅ Decrease Quantity (0 hone par auto remove)
   const decreaseQty = (id) => {
     const updatedCart = cart
       .map((item) =>
@@ -44,7 +39,6 @@ function Cart({ cart = [], setCart, setShowCart }) {
     setCart(updatedCart);
   };
 
-  // ✅ Apply Coupon
   const applyCoupon = () => {
     if (coupon === "SAVE50") {
       setDiscount(50);
@@ -54,7 +48,6 @@ function Cart({ cart = [], setCart, setShowCart }) {
     }
   };
 
-  // ✅ WhatsApp Order
   const confirmOrder = () => {
     if (!name || !address || !pin) {
       alert("Please fill all details");
@@ -74,7 +67,7 @@ function Cart({ cart = [], setCart, setShowCart }) {
     message += `\nDiscount: ₹${discount}`;
     message += `\nTotal: ₹${finalTotal}`;
 
-    const phoneNumber = "919922734633"; // 🔴 apna number dalna
+    const phoneNumber = "919922734633";
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
     window.open(url, "_blank");
@@ -94,28 +87,16 @@ function Cart({ cart = [], setCart, setShowCart }) {
           <p className="text-center text-gray-500">Cart is empty</p>
         )}
 
-        {/* Cart Items */}
+        {/* Items */}
         {cart.map((item) => (
           <div key={item.id} className="border-b py-3">
             <h3 className="font-semibold">{item.name}</h3>
             <p>₹{item.price}</p>
 
             <div className="flex items-center gap-3 mt-2">
-              <button
-                onClick={() => decreaseQty(item.id)}
-                className="bg-gray-300 px-3 py-1 rounded"
-              >
-                −
-              </button>
-
+              <button onClick={() => decreaseQty(item.id)} className="bg-gray-300 px-3 py-1 rounded">−</button>
               <span className="font-bold">{item.quantity}</span>
-
-              <button
-                onClick={() => increaseQty(item.id)}
-                className="bg-gray-300 px-3 py-1 rounded"
-              >
-                +
-              </button>
+              <button onClick={() => increaseQty(item.id)} className="bg-gray-300 px-3 py-1 rounded">+</button>
             </div>
 
             <p className="mt-2 text-sm">
@@ -143,7 +124,7 @@ function Cart({ cart = [], setCart, setShowCart }) {
               </button>
             </div>
 
-            {/* Price Summary */}
+            {/* Price */}
             <div className="mt-4 text-sm space-y-1">
               <p>Subtotal: ₹{subtotal}</p>
               <p>Delivery: ₹{deliveryCharge}</p>
@@ -151,13 +132,28 @@ function Cart({ cart = [], setCart, setShowCart }) {
               <p className="font-bold text-lg">Total: ₹{finalTotal}</p>
             </div>
 
+            {/* BUTTONS */}
             {!showCheckout && (
-              <button
-                onClick={() => setShowCheckout(true)}
-                className="mt-4 w-full bg-green-600 text-white py-2 rounded"
-              >
-                Proceed to Confirm
-              </button>
+              <>
+                {/* WhatsApp Quick */}
+                <button
+                  onClick={() => setShowCheckout(true)}
+                  className="mt-4 w-full bg-green-600 text-white py-2 rounded"
+                >
+                  Quick Order (WhatsApp)
+                </button>
+
+                {/* Checkout */}
+                <button
+                  onClick={() => {
+                    setShowCart(false);
+                    setActivePage("checkout");
+                  }}
+                  className="mt-2 w-full bg-black text-white py-3 rounded"
+                >
+                  Proceed to Checkout
+                </button>
+              </>
             )}
           </>
         )}

@@ -5,12 +5,14 @@ import Products from "./pages/Products";
 import About from "./pages/About";
 import Cart from "./pages/Cart";
 import ProductDetails from "./pages/ProductDetails";
+import Checkout from "./pages/Checkout"; // ✅ NEW
 
 function App() {
+
   const [activePage, setActivePage] = useState("home");
   const [showCart, setShowCart] = useState(false);
   const [cart, setCart] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null); // ✅ NEW
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <>
@@ -25,8 +27,8 @@ function App() {
         <Home
           cart={cart}
           setCart={setCart}
-          setSelectedProduct={setSelectedProduct}   // ✅ NEW
-          setActivePage={setActivePage}             // ✅ NEW
+          setSelectedProduct={setSelectedProduct}
+          setActivePage={setActivePage}
         />
       )}
 
@@ -35,8 +37,8 @@ function App() {
         <Products
           cart={cart}
           setCart={setCart}
-          setSelectedProduct={setSelectedProduct}   // ✅ NEW
-          setActivePage={setActivePage}             // ✅ NEW
+          setSelectedProduct={setSelectedProduct}
+          setActivePage={setActivePage}
         />
       )}
 
@@ -48,6 +50,11 @@ function App() {
         />
       )}
 
+      {/* CHECKOUT PAGE ✅ */}
+      {activePage === "checkout" && (
+        <Checkout cart={cart} />
+      )}
+
       {/* ABOUT */}
       {activePage === "about" && <About />}
 
@@ -57,6 +64,7 @@ function App() {
           cart={cart}
           setCart={setCart}
           setShowCart={setShowCart}
+          setActivePage={setActivePage}   // ✅ IMPORTANT
         />
       )}
     </>
