@@ -12,6 +12,7 @@ function ProductDetails({ product, setCart }) {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [userName, setUserName] = useState("");
 
   let touchStartX = 0;
   let touchEndX = 0;
@@ -62,7 +63,6 @@ function ProductDetails({ product, setCart }) {
       }
     });
 
-    // ✅ SUCCESS POPUP
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 2000);
   };
@@ -103,23 +103,24 @@ Size: ${selectedSize}`;
 
   // ⭐ ADD REVIEW
   const addReview = () => {
-    if (!rating || !comment) {
-      alert("Please add rating & comment");
+    if (!rating || !comment || !userName) {
+      alert("Please fill all details");
       return;
     }
 
-    const newReview = { rating, comment };
+    const newReview = { rating, comment, userName };
     setReviews([newReview, ...reviews]);
+
     setRating(0);
     setComment("");
+    setUserName("");
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-4 md:p-6 grid md:grid-cols-2 gap-10">
+    <div className="max-w-6xl mx-auto p-4 md:p-6 grid md:grid-cols-2 gap-10 pb-28">
 
       {/* IMAGE */}
       <div>
-
         <div
           className="w-full h-[45vh] md:h-[500px] bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center"
           onTouchStart={handleTouchStart}
@@ -147,7 +148,6 @@ Size: ${selectedSize}`;
             />
           ))}
         </div>
-
       </div>
 
       {/* DETAILS */}
@@ -204,12 +204,22 @@ Size: ${selectedSize}`;
       </div>
 
       {/* ⭐ REVIEWS */}
-      <div className="md:col-span-2 mt-10">
+      <div className="md:col-span-2 mt-10 pb-20">
 
         <h2 className="text-xl font-bold mb-4">Customer Reviews</h2>
 
-        <div className="mb-4">
-          <div className="flex gap-1 text-2xl mb-2">
+        {/* FORM */}
+        <div className="mb-6 border p-4 rounded">
+
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            className="w-full border p-2 rounded mb-3"
+          />
+
+          <div className="flex gap-1 text-2xl mb-3">
             {[1,2,3,4,5].map((star) => (
               <span
                 key={star}
@@ -225,17 +235,23 @@ Size: ${selectedSize}`;
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="Write review..."
-            className="w-full border p-2 rounded mb-2"
+            className="w-full border p-2 rounded mb-3"
           />
 
-          <button onClick={addReview} className="bg-black text-white px-4 py-2 rounded">
-            Submit
+          <button 
+            onClick={addReview} 
+            className="bg-black text-white px-4 py-2 rounded w-full"
+          >
+            Submit Review
           </button>
+
         </div>
 
+        {/* REVIEW LIST */}
         <div className="space-y-3">
           {reviews.map((rev, i) => (
             <div key={i} className="border p-3 rounded">
+              <p className="font-semibold">{rev.userName}</p>
               <div className="text-yellow-500">{"★".repeat(rev.rating)}</div>
               <p>{rev.comment}</p>
             </div>
@@ -249,10 +265,10 @@ Size: ${selectedSize}`;
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded w-[90%] md:w-[400px]">
             <h2 className="text-xl font-bold mb-4">Size Guide</h2>
-            <p>M - 38 Chest</p>
-            <p>L - 40 Chest</p>
-            <p>XL - 42 Chest</p>
-            <p>XXL - 44 Chest</p>
+            <p>M - 38</p>
+            <p>L - 40</p>
+            <p>XL - 42</p>
+            <p>XXL - 44</p>
 
             <button
               onClick={() => setShowSizeGuide(false)}
@@ -264,7 +280,7 @@ Size: ${selectedSize}`;
         </div>
       )}
 
-      {/* ✅ SUCCESS POPUP */}
+      {/* SUCCESS POPUP */}
       {showSuccess && (
         <div className="fixed top-5 right-5 bg-green-600 text-white px-6 py-3 rounded shadow-lg z-50">
           ✅ Added Successfully

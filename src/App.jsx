@@ -5,7 +5,7 @@ import Products from "./pages/Products";
 import About from "./pages/About";
 import Cart from "./pages/Cart";
 import ProductDetails from "./pages/ProductDetails";
-import Checkout from "./pages/Checkout"; // ✅ NEW
+import Checkout from "./pages/Checkout";
 
 function App() {
 
@@ -16,55 +16,62 @@ function App() {
 
   return (
     <>
+      {/* ✅ NAVBAR */}
       <Navbar
         cart={cart}
         setShowCart={setShowCart}
         setActivePage={setActivePage}
+        activePage={activePage}   // ⭐ IMPORTANT
       />
 
-      {/* HOME */}
-      {activePage === "home" && (
-        <Home
-          cart={cart}
-          setCart={setCart}
-          setSelectedProduct={setSelectedProduct}
-          setActivePage={setActivePage}
-        />
-      )}
+      {/* ✅ PAGE CONTENT (Padding for sticky navbar) */}
+      <div className="pt-24">
 
-      {/* PRODUCTS */}
-      {activePage === "products" && (
-        <Products
-          cart={cart}
-          setCart={setCart}
-          setSelectedProduct={setSelectedProduct}
-          setActivePage={setActivePage}
-        />
-      )}
+        {/* HOME */}
+        {activePage === "home" && (
+          <Home
+            cart={cart}
+            setCart={setCart}
+            setSelectedProduct={setSelectedProduct}
+            setActivePage={setActivePage}
+          />
+        )}
 
-      {/* PRODUCT DETAILS */}
-      {activePage === "details" && selectedProduct && (
-        <ProductDetails
-          product={selectedProduct}
-          setCart={setCart}
-        />
-      )}
+        {/* PRODUCTS */}
+        {activePage === "products" && (
+          <Products
+            cart={cart}
+            setCart={setCart}
+            setSelectedProduct={setSelectedProduct}
+            setActivePage={setActivePage}
+          />
+        )}
 
-      {/* CHECKOUT PAGE ✅ */}
-      {activePage === "checkout" && (
-        <Checkout cart={cart} />
-      )}
+        {/* PRODUCT DETAILS */}
+        {activePage === "details" && selectedProduct && (
+          <ProductDetails
+            product={selectedProduct}
+            setCart={setCart}
+          />
+        )}
 
-      {/* ABOUT */}
-      {activePage === "about" && <About />}
+        {/* CHECKOUT */}
+        {activePage === "checkout" && (
+          <Checkout cart={cart} />
+        )}
 
-      {/* CART */}
+        {/* ABOUT */}
+        {activePage === "about" && <About />}
+
+      </div>
+
+      {/* CART (Overlay) */}
       {showCart && (
         <Cart
           cart={cart}
           setCart={setCart}
           setShowCart={setShowCart}
-          setActivePage={setActivePage}   // ✅ IMPORTANT
+          setActivePage={setActivePage}
         />
       )}
     </>

@@ -74,7 +74,7 @@ function Cart({ cart = [], setCart, setShowCart, setActivePage }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end">
+    <div className="fixed top-20 left-0 w-full h-[calc(100%-4rem)] bg-black bg-opacity-50 flex justify-end z-40">
       <div className="bg-white w-full sm:w-96 h-full p-4 overflow-y-auto">
 
         {/* Header */}
